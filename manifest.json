@@ -1,0 +1,18 @@
+{
+  "manifest_version": 2,
+  "name": "The Shaqtivator",
+  "version": "1.0",
+  "description": "Shaqtivate everything.",
+  "permissions": ["storage"],
+  "content_scripts": [
+    {
+        "matches": [
+            "*://*/*"
+        ],
+        "js": [
+            "content.js"
+        ],
+        "run_at": "document_end"
+    }
+]
+}
