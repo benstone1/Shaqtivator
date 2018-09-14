@@ -12,14 +12,14 @@ function shaqifyAllDOMText() {
       for (var j = 0; j < element.childNodes.length; j++) {
           var node = element.childNodes[j]
           if (node.nodeType === 3) {
-              var newText = createShaqifiedElement(node)
+              var newText = createShaqifiedElementText(node)
               element.replaceChild(document.createTextNode(newText), node);
           }
       }
   }
 }
 
-function createShaqifiedElement(node) {
+function createShaqifiedElementText(node) {
   var fullNodeText = node.nodeValue
   if (isUnshaqable(fullNodeText)) {
     return node.nodeValue
@@ -30,6 +30,7 @@ function createShaqifiedElement(node) {
   for (wordIndex = 0; wordIndex < words.length; wordIndex++) {
     finalWords.push(shaqify(words[wordIndex]))
   }
+  finalWords = cleanUpIndefiniteArticles(finalWords)
   return finalWords.join(" ")
 }
 
@@ -41,6 +42,20 @@ function isUnshaqable(text) {
     }
   }
   return false
+}
+
+function cleanUpIndefiniteArticles(wordsArr) {
+  var newWordsArr = wordsArr
+  for (index = 0; index < newWordsArr.length - 1; index++) {
+    if (wordsArr[index].toLowerCase() === "an" && wordsArr[index + 1].indexOf("Shaq") === 0) {
+      if (wordsArr[index] === "An" || wordsArr[index] === "AN") {
+        newWordsArr[index] = "A"
+      } else {
+        newWordsArr[index] = "a"
+      }
+    }
+  }
+  return newWordsArr
 }
 
 function shaqify(text) {
