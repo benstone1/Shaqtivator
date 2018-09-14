@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "The Shaqtivator",
-  "version": "1.0",
+  "version": "1.1",
   "description": "Shaqtivate everything.",
   "browser_action": {
     "default_popup": "popup.html"
