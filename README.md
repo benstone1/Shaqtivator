@@ -1,4 +1,9 @@
-SHAQTIVATE
+# The Shaqtivator
+
+Produced for a Shopkeep Lightning Talk.  A chrome extension for when you need more Shaq.
+
+Inspired by [this video](https://www.youtube.com/watch?v=Lfg0--GbjVI)
+
 
 Resources used:
 
