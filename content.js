@@ -1,9 +1,23 @@
 chrome.storage.sync.get('ShaqtivateEnabled', function(result) {
   var isEnabled = result.ShaqtivateEnabled
   if (isEnabled) {
-    shaqifyAllDOMText()
+    registerifyAllDOMText()
   }
 });
+
+function registerifyAllDOMText() {
+  var elements = document.getElementsByTagName('*');
+  for (var i = 0; i < elements.length; i++) {
+      var element = elements[i]
+      for (var j = 0; j < element.childNodes.length; j++) {
+          var node = element.childNodes[j]
+          if (node.nodeType === 3) {
+              var newText = createRegisterifiedElementText(node)
+              element.replaceChild(document.createTextNode(newText), node);
+          }
+      }
+  }
+}
 
 function shaqifyAllDOMText() {
   var elements = document.getElementsByTagName('*');
@@ -17,6 +31,20 @@ function shaqifyAllDOMText() {
           }
       }
   }
+}
+
+function createRegisterifiedElementText(node) {
+  var fullNodeText = node.nodeValue
+  if (isUnshaqable(fullNodeText)) {
+    return node.nodeValue
+  }
+  var words = fullNodeText.split(" ")
+  var finalWords = []
+  for (wordIndex = 0; wordIndex < words.length; wordIndex++) {
+    finalWords.push(registerify(words[wordIndex]))
+  }
+  finalWords = cleanUpIndefiniteArticles(finalWords)
+  return finalWords.join(" ")
 }
 
 function createShaqifiedElementText(node) {
@@ -69,6 +97,20 @@ function shaqify(text) {
     newText = newText.replace(sequence, "Shaq")
   }
   var shaqIndex = newText.indexOf("Shaq")
+  if (shouldTruncateBeginning(shaqIndex, newText)) {
+    newText = newText.substring(shaqIndex, newText.length)
+  }
+  return newText
+}
+
+function registerify(text) {
+  var newText = text
+  var replacableSequences = ["Shift", "shift"]
+  for (index = 0; index < replacableSequences.length; index++) {
+    var sequence = replacableSequences[index]
+    newText = newText.replace(sequence, "Register")
+  }
+  var shaqIndex = newText.indexOf("Register")
   if (shouldTruncateBeginning(shaqIndex, newText)) {
     newText = newText.substring(shaqIndex, newText.length)
   }
